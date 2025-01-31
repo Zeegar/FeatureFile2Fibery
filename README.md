@@ -28,3 +28,12 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 
    ```sh
    python Gherkin2Fibery.py <feature_file_path>
+   ```
+
+## Running Tests
+
+To run the unit tests for the functions in `Gherkin2Fibery.py`, you can use the following command:
+
+```sh
+python -m unittest Gherkin2Fibery.py
+```
