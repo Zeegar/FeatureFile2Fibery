@@ -37,3 +37,9 @@ To run the unit tests for the functions in `Gherkin2Fibery.py`, you can use the 
 ```sh
 python -m unittest Gherkin2Fibery.py
 ```
+
+To run the unit tests specified in the `UnitTests.feature` file, you can use the following command:
+
+```sh
+python -m unittest discover -s tests -p "UnitTests.feature"
+```
