@@ -16,9 +16,14 @@ def main():
         print(formatting_result)
 
     feature_data = parse_feature_file(feature_file_path)
-    write_to_csv(feature_data, output_csv_path)
 
-    print(f"Successfully converted Gherkin file to CSV: {output_csv_path}")
+    user_input = input("Do you want to continue and write the CSV file? (yes/no): ")
+    if user_input.lower() == 'yes':
+        write_to_csv(feature_data, output_csv_path)
+        print(f"Successfully converted Gherkin file to CSV: {output_csv_path}")
+    else:
+        print("Operation cancelled by the user.")
+        sys.exit(0)
 
 if __name__ == "__main__":
     main()
