@@ -46,6 +46,19 @@ feature_file_path = config.get_feature_file_path()
 output_csv_path = config.get_output_csv_path()
 ```
 
+### Running the Inspection Script
+
+1. Place your Gherkin feature file in the same directory as `inspectFeature.py` or provide the full path to the feature file.
+2. Open a terminal or command prompt.
+3. Navigate to the directory containing `inspectFeature.py`.
+4. Run the script with the following command:
+
+   ```sh
+   python inspectFeature.py <feature_file_path>
+   ```
+
+5. The script will display a summary of any formatting errors or syntax issues found in the feature file.
+
 ## Running Tests
 
 To run the unit tests for the functions in `Gherkin2Fibery.py`, you can use the following command:
