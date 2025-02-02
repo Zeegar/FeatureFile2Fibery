@@ -1,5 +1,5 @@
 import io
-from gherkin_parser import parse_feature_file
+from gherkin_parser import parse_feature_file, find_closest_match, update_feature_file
 
 def test_parse_feature_file():
     feature_file_content = """Feature: Test Feature
@@ -199,4 +199,48 @@ Then a final step
         ['Test Feature', 'Scenario: Test Scenario', 'Then a final step'],
         ['Test Feature', 'Scenario: Test Scenario', 'Invalid Gherkin syntax at line 6: 1Scenario: Different formatting']
     ]
+    assert parse_feature_file(feature_file)['features'] == expected_output['features']
+
+def test_find_closest_match():
+    line = "Giben a step"
+    valid_keywords = ['Feature:', 'Scenario:', 'Scenario Outline:', 'Developer Task:', 'Given', 'When', 'Then', 'And', 'Examples', '|']
+    expected_output = "Given"
+    assert find_closest_match(line, valid_keywords) == expected_output
+
+def test_update_feature_file():
+    feature_file_content = """Feature: Test Feature
+Scenario: Test Scenario
+Giben a step
+When another step
+Then a final step
+"""
+    feature_file = io.StringIO(feature_file_content)
+    update_feature_file(feature_file, 3, "Given a step")
+    expected_output = """Feature: Test Feature
+Scenario: Test Scenario
+Given a step
+When another step
+Then a final step
+"""
+    assert feature_file.getvalue() == expected_output
+
+def test_inspect_feature():
+    feature_file_content = """Feature: Test Feature
+Scenario: Test Scenario
+Giben a step
+When another step
+Then a final step
+"""
+    feature_file = io.StringIO(feature_file_content)
+    expected_output = {
+        'features': [
+            ['Test Feature', '', ''],
+            ['Test Feature', 'Scenario: Test Scenario', ''],
+            ['Test Feature', 'Scenario: Test Scenario', 'Given a step'],
+            ['Test Feature', 'Scenario: Test Scenario', 'When another step'],
+            ['Test Feature', 'Scenario: Test Scenario', 'Then a final step']
+        ],
+        'errors': [],
+        'warnings': []
+    }
     assert parse_feature_file(feature_file)['features'] == expected_output['features']

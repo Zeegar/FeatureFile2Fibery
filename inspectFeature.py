@@ -1,5 +1,5 @@
 import sys
-from gherkin_parser import parse_feature_file
+from gherkin_parser import parse_feature_file, find_closest_match, update_feature_file
 
 def main():
     if len(sys.argv) != 2:
@@ -9,23 +9,29 @@ def main():
     feature_file_path = sys.argv[1]
     feature_data = parse_feature_file(feature_file_path)
 
-    if feature_data['errors']:
+    while feature_data['errors']:
         print("Errors:")
         for error in feature_data['errors']:
             print(error)
+
+        for line_number, line in enumerate(feature_data['errors'], start=1):
+            closest_match = find_closest_match(line, feature_data['valid_keywords'])
+            if closest_match:
+                user_input = input(f"Did you mean '{closest_match}' instead of '{line}'? (yes/no): ")
+                if user_input.lower() == 'yes':
+                    update_feature_file(feature_file_path, line_number, closest_match)
+                    feature_data = parse_feature_file(feature_file_path)
+                    break
+        else:
+            break
 
     if feature_data['warnings']:
         print("Warnings:")
         for warning in feature_data['warnings']:
             print(warning)
 
-    if feature_data['errors']:
-        decision = input("Would you like to continue with CSV generation despite these issues? (yes/no): ")
-        if decision.lower() != 'yes':
-            print("CSV generation aborted due to errors.")
-            sys.exit(1)
-
-    print("No critical issues found. You can proceed with CSV generation.")
+    if not feature_data['errors']:
+        print("The feature file is clean.")
 
 if __name__ == "__main__":
     main()
