@@ -5,6 +5,8 @@ def parse_feature_file(file_path):
     features = []
     current_feature = None
     current_scenario = None
+    scenario_outline = False
+    examples_table = False
 
     for line_number, line in enumerate(lines, start=1):
         line = line.lstrip()
@@ -20,10 +22,17 @@ def parse_feature_file(file_path):
                 features.append([current_feature, '', ''])
             if current_feature and current_scenario:
                 features.append([current_feature, current_scenario, ''])
+            if line.startswith('Scenario Outline:'):
+                scenario_outline = True
+                examples_table = False
         elif any(line.startswith(keyword) for keyword in
                  ['Given', 'When', 'Then', 'And', 'Examples', '|']):
             if current_feature and current_scenario:
                 features.append([current_feature, current_scenario, line])
+            if line.startswith('Examples:'):
+                examples_table = True
+            if line.startswith('|') and scenario_outline and not examples_table:
+                print(f"Invalid Gherkin syntax at line {line_number}: 'Scenario Outline' must be followed by an examples table with lines 'Examples:' and '|'")
         elif line:
             print(f"Invalid Gherkin syntax at line {line_number}: {line}")
 
