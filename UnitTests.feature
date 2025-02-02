@@ -115,3 +115,128 @@ Then the output should be:
     ['Test Feature', 'Scenario Outline: Test Scenario Outline', '| value 2  |']
 ]
 """
+
+Scenario: Test missing Feature keyword
+Given a feature file with the following content:
+"""
+Scenario: Test Scenario
+Given a step
+When another step
+Then a final step
+"""
+When the parse_feature_file function is called
+Then the output should be:
+"""
+{
+    'features': [],
+    'errors': ["Invalid Gherkin syntax at line 1: Scenario: Test Scenario"],
+    'warnings': []
+}
+"""
+
+Scenario: Test missing Scenario keyword
+Given a feature file with the following content:
+"""
+Feature: Test Feature
+Given a step
+When another step
+Then a final step
+"""
+When the parse_feature_file function is called
+Then the output should be:
+"""
+{
+    'features': [['Test Feature', '', '']],
+    'errors': [
+        "Invalid Gherkin syntax at line 2: Given a step",
+        "Invalid Gherkin syntax at line 3: When another step",
+        "Invalid Gherkin syntax at line 4: Then a final step"
+    ],
+    'warnings': []
+}
+"""
+
+Scenario: Test invalid step keywords
+Given a feature file with the following content:
+"""
+Feature: Test Feature
+Scenario: Test Scenario
+Giben a step
+Whan another step
+Then a final step
+"""
+When the parse_feature_file function is called
+Then the output should be:
+"""
+{
+    'features': [
+        ['Test Feature', '', ''],
+        ['Test Feature', 'Scenario: Test Scenario', '']
+    ],
+    'errors': [
+        "Invalid Gherkin syntax at line 3: Giben a step",
+        "Invalid Gherkin syntax at line 4: Whan another step"
+    ],
+    'warnings': []
+}
+"""
+
+Scenario: Test empty lines and whitespace
+Given a feature file with the following content:
+"""
+Feature: Test Feature
+
+Scenario: Test Scenario
+
+Given a step
+
+When another step
+
+Then a final step
+
+"""
+When the parse_feature_file function is called
+Then the output should be:
+"""
+{
+    'features': [
+        ['Test Feature', '', ''],
+        ['Test Feature', 'Scenario: Test Scenario', ''],
+        ['Test Feature', 'Scenario: Test Scenario', 'Given a step'],
+        ['Test Feature', 'Scenario: Test Scenario', 'When another step'],
+        ['Test Feature', 'Scenario: Test Scenario', 'Then a final step']
+    ],
+    'errors': [],
+    'warnings': []
+}
+"""
+
+Scenario: Test missing Scenario Outline keyword
+Given a feature file with the following content:
+"""
+Feature: Test Feature
+Given a step
+When another step
+Then a final step
+Examples:
+| column 1 |
+| value 1  |
+| value 2  |
+"""
+When the parse_feature_file function is called
+Then the output should be:
+"""
+{
+    'features': [['Test Feature', '', '']],
+    'errors': [
+        "Invalid Gherkin syntax at line 2: Given a step",
+        "Invalid Gherkin syntax at line 3: When another step",
+        "Invalid Gherkin syntax at line 4: Then a final step",
+        "Invalid Gherkin syntax at line 5: Examples:",
+        "Invalid Gherkin syntax at line 6: | column 1 |",
+        "Invalid Gherkin syntax at line 7: | value 1  |",
+        "Invalid Gherkin syntax at line 8: | value 2  |"
+    ],
+    'warnings': []
+}
+"""
