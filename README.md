@@ -30,6 +30,20 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
    python Gherkin2Fibery.py <feature_file_path>
    ```
 
+### Configuration Management
+
+The script now uses a `Config` class to manage file paths and command-line arguments. This class is defined in the `config.py` file.
+
+### Example
+
+```python
+from config import Config
+
+config = Config()
+feature_file_path = config.get_feature_file_path()
+output_csv_path = config.get_output_csv_path()
+```
+
 ## Running Tests
 
 To run the unit tests for the functions in `Gherkin2Fibery.py`, you can use the following command:
@@ -49,3 +63,4 @@ python -m unittest discover -s tests -p "UnitTests.feature"
 - `gherkin_parser.py`: Contains the function to parse Gherkin feature files.
 - `csv_writer.py`: Contains the function to write parsed data to a CSV file.
 - `format_checker.py`: Contains the function to check the formatting of the feature file.
+- `config.py`: Contains the `Config` class to manage file paths and command-line arguments.
