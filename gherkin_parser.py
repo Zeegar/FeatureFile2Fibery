@@ -1,11 +1,4 @@
 import re
-from spellchecker import SpellChecker
-
-def check_spelling(text):
-    spell = SpellChecker()
-    words = re.findall(r'\b\w+\b', text)
-    misspelled = spell.unknown(words)
-    return list(misspelled)
 
 def parse_feature_file(file_path):
     with open(file_path, 'r') as file:
@@ -46,11 +39,6 @@ def parse_feature_file(file_path):
                 errors.append(f"Invalid Gherkin syntax at line {line_number}: 'Scenario Outline' must be followed by an examples table with lines 'Examples:' and '|'")
         elif line:
             errors.append(f"Invalid Gherkin syntax at line {line_number}: {line}")
-
-        # Check for spelling mistakes
-        misspelled_words = check_spelling(line)
-        if misspelled_words:
-            warnings.append(f"Spelling mistakes at line {line_number}: {', '.join(misspelled_words)}")
 
     return {
         'features': features,

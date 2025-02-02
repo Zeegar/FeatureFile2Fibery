@@ -19,10 +19,10 @@ def main():
         for warning in feature_data['warnings']:
             print(warning)
 
-    if feature_data['errors'] or feature_data['warnings']:
+    if feature_data['errors']:
         decision = input("Would you like to continue with CSV generation despite these issues? (yes/no): ")
         if decision.lower() != 'yes':
-            print("CSV generation aborted due to errors or warnings.")
+            print("CSV generation aborted due to errors.")
             sys.exit(1)
 
     print("No critical issues found. You can proceed with CSV generation.")

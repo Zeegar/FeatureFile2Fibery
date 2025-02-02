@@ -55,8 +55,7 @@ output_csv_path = config.get_output_csv_path()
    python inspectFeature.py <feature_file_path>
    ```
 
-5. The script will display a summary of any formatting errors, spelling mistakes, or syntax issues found in the feature file.
-6. The script will ask if you would like to continue with CSV generation despite these issues. Use standard input (`input()`) to capture your decision.
+5. The script will display a summary of any formatting errors or syntax issues found in the feature file.
 
 ## Running Tests
 

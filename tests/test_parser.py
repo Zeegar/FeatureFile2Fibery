@@ -1,5 +1,5 @@
 import io
-from gherkin_parser import parse_feature_file, check_spelling
+from gherkin_parser import parse_feature_file
 
 def test_parse_feature_file():
     feature_file_content = """Feature: Test Feature
@@ -50,8 +50,3 @@ Examples:
         'warnings': []
     }
     assert parse_feature_file(feature_file) == expected_output
-
-def test_check_spelling():
-    text = "This is a smple text with a speling mistake."
-    expected_output = ['smple', 'speling']
-    assert check_spelling(text) == expected_output
