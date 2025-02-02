@@ -50,7 +50,8 @@ def parse_feature_file(file_path):
     return {
         'features': features,
         'errors': errors,
-        'warnings': warnings
+        'warnings': warnings,
+        'valid_keywords': valid_keywords
     }
 
 def find_closest_match(line, valid_keywords):
