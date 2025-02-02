@@ -42,3 +42,48 @@ Examples:
         ['Test Feature', 'Scenario Outline: Test Scenario Outline', '| value 2  |']
     ]
     assert parse_feature_file(feature_file) == expected_output
+
+def test_invalid_gherkin_syntax():
+    feature_file_content = """Feature: Test Feature
+Scenario: Test Scenario
+Given a step
+Invalid line
+"""
+    feature_file = io.StringIO(feature_file_content)
+    expected_output = [
+        ['Test Feature', '', ''],
+        ['Test Feature', 'Scenario: Test Scenario', ''],
+        ['Test Feature', 'Scenario: Test Scenario', 'Given a step'],
+        ['Test Feature', 'Scenario: Test Scenario', 'Invalid Gherkin syntax at line 4: Invalid line']
+    ]
+    assert parse_feature_file(feature_file) == expected_output
+
+def test_missing_elements():
+    feature_file_content = """Feature: Test Feature
+Scenario: Test Scenario
+"""
+    feature_file = io.StringIO(feature_file_content)
+    expected_output = [
+        ['Test Feature', '', ''],
+        ['Test Feature', 'Scenario: Test Scenario', '']
+    ]
+    assert parse_feature_file(feature_file) == expected_output
+
+def test_incorrect_formatting():
+    feature_file_content = """Feature: Test Feature
+Scenario: Test Scenario
+Given a step
+When another step
+Then a final step
+1Scenario: Different formatting
+"""
+    feature_file = io.StringIO(feature_file_content)
+    expected_output = [
+        ['Test Feature', '', ''],
+        ['Test Feature', 'Scenario: Test Scenario', ''],
+        ['Test Feature', 'Scenario: Test Scenario', 'Given a step'],
+        ['Test Feature', 'Scenario: Test Scenario', 'When another step'],
+        ['Test Feature', 'Scenario: Test Scenario', 'Then a final step'],
+        ['Test Feature', 'Scenario: Test Scenario', 'Invalid Gherkin syntax at line 6: 1Scenario: Different formatting']
+    ]
+    assert parse_feature_file(feature_file) == expected_output
