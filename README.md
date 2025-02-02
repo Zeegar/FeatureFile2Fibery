@@ -59,6 +59,10 @@ output_csv_path = config.get_output_csv_path()
 
 5. The script will display a summary of any formatting errors or syntax issues found in the feature file.
 
+### New Behavior of `inspectFeature.py`
+
+The `inspectFeature.py` script has been updated to find lines close to the target Gherkin syntax and ask the user for confirmation. It updates the original file with the new changes and parses the file again. If there are no more errors, the script returns a message indicating the feature file is clean.
+
 ## Running Tests
 
 To run the unit tests for the functions in `Gherkin2Fibery.py`, you can use the following command:

@@ -1,4 +1,5 @@
 import re
+from difflib import get_close_matches
 
 def parse_feature_file(file_path):
     with open(file_path, 'r') as file:
@@ -38,6 +39,12 @@ def parse_feature_file(file_path):
             if line.startswith('|') and scenario_outline and not examples_table:
                 errors.append(f"Invalid Gherkin syntax at line {line_number}: 'Scenario Outline' must be followed by an examples table with lines 'Examples:' and '|'")
         elif line:
+            closest_match = find_closest_match(line, valid_keywords)
+            if closest_match:
+                user_input = input(f"Did you mean '{closest_match}' instead of '{line}'? (yes/no): ")
+                if user_input.lower() == 'yes':
+                    update_feature_file(file_path, line_number, closest_match)
+                    return parse_feature_file(file_path)
             errors.append(f"Invalid Gherkin syntax at line {line_number}: {line}")
 
     return {
@@ -45,3 +52,16 @@ def parse_feature_file(file_path):
         'errors': errors,
         'warnings': warnings
     }
+
+def find_closest_match(line, valid_keywords):
+    matches = get_close_matches(line, valid_keywords)
+    return matches[0] if matches else None
+
+def update_feature_file(file_path, line_number, new_line):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+    lines[line_number - 1] = new_line + '\n'
+
+    with open(file_path, 'w') as file:
+        file.writelines(lines)
