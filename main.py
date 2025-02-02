@@ -2,6 +2,7 @@ import sys
 import os
 from csv_writer import write_to_csv
 from config import Config
+from gherkin_parser import parse_feature_file
 
 def main():
     config = Config()
@@ -13,6 +14,7 @@ def main():
     feature_data = []  # Placeholder for the actual feature data
 
     feature_data = parse_feature_file(feature_file_path)
+    feature_data = feature_data['features']
 
     user_input = input("Do you want to continue and write the CSV file? (yes/no): ")
     if user_input.lower() == 'yes':
