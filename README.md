@@ -58,6 +58,12 @@ To run the unit tests specified in the `UnitTests.feature` file, you can use the
 python -m unittest discover -s tests -p "UnitTests.feature"
 ```
 
+To run the new test files that use `io.StringIO` for in-memory file-like objects, you can use the following command:
+
+```sh
+python -m unittest discover -s tests -p "test_*.py"
+```
+
 ## Additional Files
 
 - `gherkin_parser.py`: Contains the function to parse Gherkin feature files.
