@@ -57,7 +57,7 @@ output_csv_path = config.get_output_csv_path()
    python inspectFeature.py <feature_file_path>
    ```
 
-5. The script will display a summary of any formatting errors or syntax issues found in the feature file.
+5. The script will display a summary of any formatting errors or syntax issues found in the feature file. It will also handle non-numeric characters in error messages to avoid the ValueError.
 
 ### New Behavior of `inspectFeature.py`
 
