@@ -1,7 +1,8 @@
 import sys
 import os
-from gherkin_parser import parse_feature_file, check_formatting
+from gherkin_parser import parse_feature_file
 from csv_writer import write_to_csv
+from format_checker import check_formatting
 
 def main():
     if len(sys.argv) != 2:

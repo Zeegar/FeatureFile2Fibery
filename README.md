@@ -43,3 +43,9 @@ To run the unit tests specified in the `UnitTests.feature` file, you can use the
 ```sh
 python -m unittest discover -s tests -p "UnitTests.feature"
 ```
+
+## Additional Files
+
+- `gherkin_parser.py`: Contains the function to parse Gherkin feature files.
+- `csv_writer.py`: Contains the function to write parsed data to a CSV file.
+- `format_checker.py`: Contains the function to check the formatting of the feature file.
