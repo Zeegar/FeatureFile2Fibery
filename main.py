@@ -3,20 +3,13 @@ import os
 from gherkin_parser import parse_feature_file
 from csv_writer import write_to_csv
 from format_checker import check_formatting
+from config import Config
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python main.py <feature_file_path>")
-        sys.exit(1)
+    config = Config()
 
-    feature_file_path = sys.argv[1]
-    base_name = os.path.splitext(os.path.basename(feature_file_path))[0]
-    output_csv_path = f"{base_name}.csv"
-
-    counter = 1
-    while os.path.exists(output_csv_path):
-        output_csv_path = f"{base_name}_{counter}.csv"
-        counter += 1
+    feature_file_path = config.get_feature_file_path()
+    output_csv_path = config.get_output_csv_path()
 
     formatting_result = check_formatting(feature_file_path)
     if formatting_result != "Formatting Ok":
