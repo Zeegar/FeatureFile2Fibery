@@ -21,21 +21,21 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 
 ### Running the Script
 
-1. Place your Gherkin feature file in the same directory as `Gherkin2Fibery.py` or provide the full path to the feature file.
+1. Place your Gherkin feature file in the same directory as `main.py` or provide the full path to the feature file.
 2. Open a terminal or command prompt.
-3. Navigate to the directory containing `Gherkin2Fibery.py`.
+3. Navigate to the directory containing `main.py`.
 4. Run the script with the following command:
 
    ```sh
-   python Gherkin2Fibery.py <feature_file_path>
+   python main.py <feature_file_path>
    ```
 
 ## Running Tests
 
-To run the unit tests for the functions in `Gherkin2Fibery.py`, you can use the following command:
+To run the unit tests for the functions in `gherkin_parser.py`, `csv_writer.py`, and `format_checker.py`, you can use the following command:
 
 ```sh
-python -m unittest Gherkin2Fibery.py
+python -m unittest discover -s tests -p "test_*.py"
 ```
 
 To run the unit tests specified in the `UnitTests.feature` file, you can use the following command:

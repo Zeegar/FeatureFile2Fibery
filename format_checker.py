@@ -1,6 +1,5 @@
-def check_formatting(file_path):
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
+def check_formatting(file):
+    lines = file.readlines()
 
     errors = []
     for i, line in enumerate(lines):
@@ -15,3 +14,7 @@ def check_formatting(file_path):
         return "\n".join(errors)
     else:
         return "Formatting Ok"
+
+def check_formatting_from_path(file_path):
+    with open(file_path, 'r') as file:
+        return check_formatting(file)

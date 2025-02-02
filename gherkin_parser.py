@@ -1,6 +1,5 @@
-def parse_feature_file(file_path):
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
+def parse_feature_file(file):
+    lines = file.readlines()
 
     features = []
     current_feature = None
@@ -28,3 +27,7 @@ def parse_feature_file(file_path):
             print(f"Invalid Gherkin syntax at line {line_number}: {line}")
 
     return features
+
+def parse_feature_file_from_path(file_path):
+    with open(file_path, 'r') as file:
+        return parse_feature_file(file)

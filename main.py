@@ -1,8 +1,8 @@
 import sys
 import os
-from gherkin_parser import parse_feature_file
-from csv_writer import write_to_csv
-from format_checker import check_formatting
+from gherkin_parser import parse_feature_file_from_path
+from csv_writer import write_to_csv_from_path
+from format_checker import check_formatting_from_path
 
 def main():
     if len(sys.argv) != 2:
@@ -18,12 +18,14 @@ def main():
         output_csv_path = f"{base_name}_{counter}.csv"
         counter += 1
 
-    formatting_result = check_formatting(feature_file_path)
-    if formatting_result != "Formatting Ok":
-        print(formatting_result)
+    with open(feature_file_path, 'r') as feature_file:
+        formatting_result = check_formatting_from_path(feature_file)
+        if formatting_result != "Formatting Ok":
+            print(formatting_result)
 
-    feature_data = parse_feature_file(feature_file_path)
-    write_to_csv(feature_data, output_csv_path)
+        feature_data = parse_feature_file_from_path(feature_file)
+        with open(output_csv_path, 'w', newline='') as output_csv_file:
+            write_to_csv_from_path(feature_data, output_csv_file)
 
     print(f"Successfully converted Gherkin file to CSV: {output_csv_path}")
 
