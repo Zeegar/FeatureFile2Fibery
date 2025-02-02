@@ -1,5 +1,5 @@
 import io
-from gherkin_parser import parse_feature_file
+from gherkin_parser import parse_feature_file, check_spelling
 
 def test_parse_feature_file():
     feature_file_content = """Feature: Test Feature
@@ -9,13 +9,17 @@ When another step
 Then a final step
 """
     feature_file = io.StringIO(feature_file_content)
-    expected_output = [
-        ['Test Feature', '', ''],
-        ['Test Feature', 'Scenario: Test Scenario', ''],
-        ['Test Feature', 'Scenario: Test Scenario', 'Given a step'],
-        ['Test Feature', 'Scenario: Test Scenario', 'When another step'],
-        ['Test Feature', 'Scenario: Test Scenario', 'Then a final step']
-    ]
+    expected_output = {
+        'features': [
+            ['Test Feature', '', ''],
+            ['Test Feature', 'Scenario: Test Scenario', ''],
+            ['Test Feature', 'Scenario: Test Scenario', 'Given a step'],
+            ['Test Feature', 'Scenario: Test Scenario', 'When another step'],
+            ['Test Feature', 'Scenario: Test Scenario', 'Then a final step']
+        ],
+        'errors': [],
+        'warnings': []
+    }
     assert parse_feature_file(feature_file) == expected_output
 
 def test_scenario_outline_followed_by_examples():
@@ -30,15 +34,24 @@ Examples:
 | value 2  |
 """
     feature_file = io.StringIO(feature_file_content)
-    expected_output = [
-        ['Test Feature', '', ''],
-        ['Test Feature', 'Scenario Outline: Test Scenario Outline', ''],
-        ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'Given a step'],
-        ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'When another step'],
-        ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'Then a final step'],
-        ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'Examples:'],
-        ['Test Feature', 'Scenario Outline: Test Scenario Outline', '| column 1 |'],
-        ['Test Feature', 'Scenario Outline: Test Scenario Outline', '| value 1  |'],
-        ['Test Feature', 'Scenario Outline: Test Scenario Outline', '| value 2  |']
-    ]
+    expected_output = {
+        'features': [
+            ['Test Feature', '', ''],
+            ['Test Feature', 'Scenario Outline: Test Scenario Outline', ''],
+            ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'Given a step'],
+            ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'When another step'],
+            ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'Then a final step'],
+            ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'Examples:'],
+            ['Test Feature', 'Scenario Outline: Test Scenario Outline', '| column 1 |'],
+            ['Test Feature', 'Scenario Outline: Test Scenario Outline', '| value 1  |'],
+            ['Test Feature', 'Scenario Outline: Test Scenario Outline', '| value 2  |']
+        ],
+        'errors': [],
+        'warnings': []
+    }
     assert parse_feature_file(feature_file) == expected_output
+
+def test_check_spelling():
+    text = "This is a smple text with a speling mistake."
+    expected_output = ['smple', 'speling']
+    assert check_spelling(text) == expected_output
