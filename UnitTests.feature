@@ -86,3 +86,32 @@ Test Feature,Scenario: Test Scenario,Given a step
 ,,Then a final step
 ,,
 """
+
+Scenario: Test Scenario Outline followed by Examples
+Given a feature file with the following content:
+"""
+Feature: Test Feature
+Scenario Outline: Test Scenario Outline
+Given a step
+When another step
+Then a final step
+Examples:
+| column 1 |
+| value 1  |
+| value 2  |
+"""
+When the parse_feature_file function is called
+Then the output should be:
+"""
+[
+    ['Test Feature', '', ''],
+    ['Test Feature', 'Scenario Outline: Test Scenario Outline', ''],
+    ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'Given a step'],
+    ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'When another step'],
+    ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'Then a final step'],
+    ['Test Feature', 'Scenario Outline: Test Scenario Outline', 'Examples:'],
+    ['Test Feature', 'Scenario Outline: Test Scenario Outline', '| column 1 |'],
+    ['Test Feature', 'Scenario Outline: Test Scenario Outline', '| value 1  |'],
+    ['Test Feature', 'Scenario Outline: Test Scenario Outline', '| value 2  |']
+]
+"""
