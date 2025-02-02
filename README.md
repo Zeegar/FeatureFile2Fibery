@@ -30,6 +30,8 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
    python Gherkin2Fibery.py <feature_file_path>
    ```
 
+5. After the script checks the formatting and parses the feature file, it will prompt you to confirm whether you want to continue and write the CSV file. Type `yes` to proceed or `no` to cancel the operation.
+
 ### Configuration Management
 
 The script now uses a `Config` class to manage file paths and command-line arguments. This class is defined in the `config.py` file.
