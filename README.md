@@ -63,6 +63,10 @@ output_csv_path = config.get_output_csv_path()
 
 The `inspectFeature.py` script has been updated to find lines close to the target Gherkin syntax and ask the user for confirmation. It updates the original file with the new changes and parses the file again. If there are no more errors, the script returns a message indicating the feature file is clean.
 
+### State Management, Backup Creation, and Undo Functionality
+
+The `inspectFeature.py` script now includes state management, creates a backup of the original file before modifications, and provides a way to undo changes. This ensures that the original file is preserved and changes can be reverted if needed.
+
 ## Running Tests
 
 To run the unit tests for the functions in `Gherkin2Fibery.py`, you can use the following command:

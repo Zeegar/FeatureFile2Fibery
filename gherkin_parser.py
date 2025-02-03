@@ -1,6 +1,16 @@
 import re
 from difflib import get_close_matches
 import io
+import shutil
+
+def create_backup(file_path):
+    backup_path = file_path + '.bak'
+    shutil.copy(file_path, backup_path)
+    return backup_path
+
+def restore_backup(file_path):
+    backup_path = file_path + '.bak'
+    shutil.copy(backup_path, file_path)
 
 def parse_feature_file(file_path):
     if isinstance(file_path, io.StringIO):
@@ -63,6 +73,7 @@ def find_closest_match(line, valid_keywords):
     return matches[0] if matches else None
 
 def update_feature_file(file_path, line_number, new_line):
+    create_backup(file_path)
     if isinstance(file_path, io.StringIO):
         lines = file_path.getvalue().splitlines()
         lines[line_number - 1] = new_line
