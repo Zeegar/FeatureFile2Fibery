@@ -1,9 +1,13 @@
 import re
 from difflib import get_close_matches
+import io
 
 def parse_feature_file(file_path):
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
+    if isinstance(file_path, io.StringIO):
+        lines = file_path.read().splitlines()
+    else:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
 
     features = []
     current_feature = None
@@ -59,10 +63,17 @@ def find_closest_match(line, valid_keywords):
     return matches[0] if matches else None
 
 def update_feature_file(file_path, line_number, new_line):
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
+    if isinstance(file_path, io.StringIO):
+        lines = file_path.getvalue().splitlines()
+        lines[line_number - 1] = new_line
+        file_path.seek(0)
+        file_path.write('\n'.join(lines))
+        file_path.truncate()
+    else:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
 
-    lines[line_number - 1] = new_line + '\n'
+        lines[line_number - 1] = new_line + '\n'
 
-    with open(file_path, 'w') as file:
-        file.writelines(lines)
+        with open(file_path, 'w') as file:
+            file.writelines(lines)
