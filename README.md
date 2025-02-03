@@ -83,6 +83,21 @@ To run the new test files that use `io.StringIO` for in-memory file-like objects
 python -m unittest discover -s tests -p "test_*.py"
 ```
 
+### Running Test Files
+
+The test files are located in the `tests` directory and contain test cases derived from `unittest.TestCase`. To run the test files using `unittest` and the `discover` command, use the following command:
+
+```sh
+python -m unittest discover -s tests -p "test_*.py"
+```
+
+The test files included are:
+- `tests/test_csv_writer.py`
+- `tests/test_format_checker.py`
+- `tests/test_parser.py`
+
+These test files are now linked and included in the main codebase for automated testing or continuous integration.
+
 ## Additional Files
 
 - `gherkin_parser.py`: Contains the function to parse Gherkin feature files.
