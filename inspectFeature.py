@@ -1,6 +1,8 @@
 import sys
 import re
 from gherkin_parser import parse_feature_file, find_closest_match, update_feature_file, create_backup, restore_backup
+from csv_writer import write_to_csv
+from config import Config
 
 def handle_user_input(prompt):
     return input(prompt)
@@ -11,12 +13,16 @@ def update_feature_file_with_user_input(feature_file_path, line_number_prompt, n
     update_feature_file(feature_file_path, line_number, new_line)
     print("Feature file updated.")
 
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: python inspectFeature.py <feature_file_path>")
-        sys.exit(1)
+def write_csv_file(feature_data, output_csv_path):
+    write_to_csv(feature_data, output_csv_path)
+    print(f"Successfully converted Gherkin file to CSV: {output_csv_path}")
 
-    feature_file_path = sys.argv[1]
+def main():
+    config = Config()
+
+    feature_file_path = config.get_feature_file_path()
+    output_csv_path = config.get_output_csv_path()
+
     create_backup(feature_file_path)
     feature_data = parse_feature_file(feature_file_path)
 
@@ -56,5 +62,9 @@ def main():
         restore_backup(feature_file_path)
         print("Changes have been undone.")
 
-if __name__ == "__main__":
-    main()
+    user_input = handle_user_input("Do you want to continue and write the CSV file? (yes/no): ")
+    if user_input.lower() == 'yes':
+        write_csv_file(feature_data['features'], output_csv_path)
+    else:
+        print("Operation cancelled by the user.")
+        sys.exit(0)
