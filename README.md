@@ -67,41 +67,6 @@ The `inspectFeature.py` script has been updated to find lines close to the targe
 
 The `inspectFeature.py` script now includes state management, creates a backup of the original file before modifications, and provides a way to undo changes. This ensures that the original file is preserved and changes can be reverted if needed.
 
-## Running Tests
-
-To run the unit tests for the functions in `Gherkin2Fibery.py`, you can use the following command:
-
-```sh
-python -m unittest Gherkin2Fibery.py
-```
-
-To run the unit tests specified in the `UnitTests.feature` file, you can use the following command:
-
-```sh
-python -m unittest discover -s tests -p "UnitTests.feature"
-```
-
-To run the new test files that use `io.StringIO` for in-memory file-like objects, you can use the following command:
-
-```sh
-python -m unittest discover -s tests -p "test_*.py"
-```
-
-### Running Test Files
-
-The test files are located in the `tests` directory and contain test cases derived from `unittest.TestCase`. To run the test files using `unittest` and the `discover` command, use the following command:
-
-```sh
-python -m unittest discover -s tests -p "test_*.py"
-```
-
-The test files included are:
-- `tests/test_csv_writer.py`
-- `tests/test_format_checker.py`
-- `tests/test_parser.py`
-
-These test files are now linked and included in the main codebase for automated testing or continuous integration.
-
 ## Additional Files
 
 - `gherkin_parser.py`: Contains the function to parse Gherkin feature files.
