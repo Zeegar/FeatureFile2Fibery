@@ -55,11 +55,9 @@ def parse_feature_file(file_path):
         elif line:
             closest_match = find_closest_match(line, valid_keywords)
             if closest_match:
-                user_input = input(f"Did you mean '{closest_match}' instead of '{line}'? (yes/no): ")
-                if user_input.lower() == 'yes':
-                    update_feature_file(file_path, line_number, closest_match)
-                    return parse_feature_file(file_path)
-            errors.append(f"Invalid Gherkin syntax at line {line_number}: {line}")
+                errors.append(f"Invalid Gherkin syntax at line {line_number}: {line}. Did you mean '{closest_match}'?")
+            else:
+                errors.append(f"Invalid Gherkin syntax at line {line_number}: {line}")
 
     return {
         'features': features,

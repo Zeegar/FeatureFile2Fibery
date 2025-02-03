@@ -44,5 +44,12 @@ def main():
         restore_backup(feature_file_path)
         print("Changes have been undone.")
 
+    user_input = input("Do you want to update the feature file? (yes/no): ")
+    if user_input.lower() == 'yes':
+        line_number = int(input("Enter the line number to update: "))
+        new_line = input("Enter the new line content: ")
+        update_feature_file(feature_file_path, line_number, new_line)
+        print("Feature file updated.")
+
 if __name__ == "__main__":
     main()
