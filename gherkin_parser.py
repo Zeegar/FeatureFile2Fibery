@@ -12,12 +12,24 @@ def restore_backup(file_path):
     backup_path = file_path + '.bak'
     shutil.copy(backup_path, file_path)
 
-def parse_feature_file(file_path):
+def read_file(file_path):
     if isinstance(file_path, io.StringIO):
-        lines = file_path.read().splitlines()
+        return file_path.read().splitlines()
     else:
         with open(file_path, 'r') as file:
-            lines = file.readlines()
+            return file.readlines()
+
+def write_file(file_path, lines):
+    if isinstance(file_path, io.StringIO):
+        file_path.seek(0)
+        file_path.write('\n'.join(lines))
+        file_path.truncate()
+    else:
+        with open(file_path, 'w') as file:
+            file.writelines(lines)
+
+def parse_feature_file(file_path):
+    lines = read_file(file_path)
 
     features = []
     current_feature = None
@@ -72,17 +84,6 @@ def find_closest_match(line, valid_keywords):
 
 def update_feature_file(file_path, line_number, new_line):
     create_backup(file_path)
-    if isinstance(file_path, io.StringIO):
-        lines = file_path.getvalue().splitlines()
-        lines[line_number - 1] = new_line
-        file_path.seek(0)
-        file_path.write('\n'.join(lines))
-        file_path.truncate()
-    else:
-        with open(file_path, 'r') as file:
-            lines = file.readlines()
-
-        lines[line_number - 1] = new_line + '\n'
-
-        with open(file_path, 'w') as file:
-            file.writelines(lines)
+    lines = read_file(file_path)
+    lines[line_number - 1] = new_line + '\n'
+    write_file(file_path, lines)

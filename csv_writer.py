@@ -2,16 +2,12 @@ import csv
 import io
 
 def write_to_csv(data, output_file):
-    if isinstance(output_file, io.StringIO):
-        writer = csv.writer(output_file)
-    else:
-        with open(output_file, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(['Scenarios'])
-            scenarios = extract_scenarios(data)
-            write_scenarios(writer, scenarios)
-            writer.writerow(['Feature', 'Test Case/Scenario', 'Test Step'])
-            write_features_and_steps(writer, data)
+    writer = csv.writer(output_file) if isinstance(output_file, io.StringIO) else csv.writer(open(output_file, 'w', newline=''))
+    writer.writerow(['Scenarios'])
+    scenarios = extract_scenarios(data)
+    write_scenarios(writer, scenarios)
+    writer.writerow(['Feature', 'Test Case/Scenario', 'Test Step'])
+    write_features_and_steps(writer, data)
 
 def extract_scenarios(data):
     return list({row[1] for row in data})

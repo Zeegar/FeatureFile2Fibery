@@ -3,10 +3,13 @@ import sys
 
 class Config:
     def __init__(self):
+        self.feature_file_path = self.parse_command_line_args()
+
+    def parse_command_line_args(self):
         if len(sys.argv) != 2:
             print("Usage: python main.py <feature_file_path>")
             sys.exit(1)
-        self.feature_file_path = sys.argv[1]
+        return sys.argv[1]
 
     def get_feature_file_path(self):
         return self.feature_file_path
