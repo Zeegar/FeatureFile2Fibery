@@ -10,9 +10,6 @@ def main():
     feature_file_path = config.get_feature_file_path()
     output_csv_path = config.get_output_csv_path()
 
-    # Assuming feature_data is already validated and passed from inspectFeature.py
-    feature_data = []  # Placeholder for the actual feature data
-
     feature_data = parse_feature_file(feature_file_path)
     feature_data = feature_data['features']
 
