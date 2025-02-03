@@ -27,7 +27,6 @@ def main():
                     if user_input.lower() == 'yes':
                         update_feature_file(feature_file_path, line_number, closest_match)
                         feature_data = parse_feature_file(feature_file_path)
-                        break
         else:
             break
 
